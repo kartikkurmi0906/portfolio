@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HiOutlineDatabase, HiOutlineMail, HiOutlineLogout } from 'react-icons/hi';
+import { HiOutlineDatabase, HiOutlineMail, HiOutlineLogout, HiOutlineAcademicCap } from 'react-icons/hi';
 import ProjectManager from '../admin/ProjectManager';
 import ContactInbox from '../admin/ContactInbox';
+import CredentialManager from '../admin/CredentialManager'; // New Component
 
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState('projects'); // State to toggle views
+  const [activeTab, setActiveTab] = useState('projects');
 
   const logout = () => {
     localStorage.removeItem('adminToken');
@@ -28,6 +29,13 @@ const AdminDashboard = () => {
             label="PROJECTS" 
             active={activeTab === 'projects'} 
             onClick={() => setActiveTab('projects')} 
+          />
+          {/* NEW CREDENTIALS TAB */}
+          <SidebarLink 
+            icon={<HiOutlineAcademicCap />} 
+            label="CREDENTIALS" 
+            active={activeTab === 'credentials'} 
+            onClick={() => setActiveTab('credentials')} 
           />
           <SidebarLink 
             icon={<HiOutlineMail />} 
@@ -55,7 +63,9 @@ const AdminDashboard = () => {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
           >
-            {activeTab === 'projects' ? <ProjectManager /> : <ContactInbox />}
+            {activeTab === 'projects' && <ProjectManager />}
+            {activeTab === 'credentials' && <CredentialManager />}
+            {activeTab === 'contacts' && <ContactInbox />}
           </motion.div>
         </AnimatePresence>
       </main>
@@ -63,7 +73,6 @@ const AdminDashboard = () => {
   );
 };
 
-// Sub-component for Sidebar Links
 const SidebarLink = ({ icon, label, active, onClick }) => (
   <button 
     onClick={onClick}

@@ -6,7 +6,7 @@ const ScrollToTop = () => {
 
   useEffect(() => {
     // This resets the scroll to the very top-left corner
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [pathname]); // This triggers every time the URL path changes
 
   return null;

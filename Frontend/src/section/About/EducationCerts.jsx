@@ -1,39 +1,42 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import axios from 'axios';
 
 const EducationCerts = () => {
   const containerRef = useRef(null);
   
+  // --- LOGIC START: Fetching from PostgreSQL ---
+  const [education, setEducation] = useState([]);
+  const [certificates, setCertificates] = useState([]);
+
+  useEffect(() => {
+    const fetchCredentials = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/credentials');
+        // Filter into the two categories defined in your SQL 'type' column
+        setEducation(res.data.filter(item => item.type === 'education'));
+        setCertificates(res.data.filter(item => item.type === 'certificate'));
+      } catch (err) {
+        console.error("FAILED_TO_FETCH_CREDENTIALS", err);
+      }
+    };
+    fetchCredentials();
+  }, []);
+
+  // Helper to handle both local Multer files and external links
+  const getFileUrl = (url) => {
+    if (!url) return "#";
+    return url.startsWith('http') ? url : `http://localhost:5000${url}`;
+  };
+  // --- LOGIC END ---
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
 
-  // Smooth Parallax Logic
-  // Reduced range to [-400, 400] for a more elegant 'float'
   const y = useTransform(scrollYProgress, [0, 1], [-800, 800]);
   const smoothY = useSpring(y, { stiffness: 100, damping: 30 });
-
-  const certs = [
-    { 
-      title: "Data Analysis Python", 
-      provider: "IBM", 
-      date: "2023", 
-      file: "/certs/cert1.pdf" // Ensure file is in public/certs/
-    },
-    { 
-      title: "Full Stack Web Dev", 
-      provider: "Meta", 
-      date: "2024", 
-      file: "/certs/web-dev-cert.jpg" 
-    },
-    { 
-      title: "UI/UX Architecture", 
-      provider: "Google", 
-      date: "2025", 
-      file: "/certs/uiux-cert.pdf" 
-    }
-  ];
 
   return (
     <section ref={containerRef} className="bg-[#0a0a0a] py-40 px-6 md:px-24 relative overflow-hidden">
@@ -70,45 +73,50 @@ const EducationCerts = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
 
-          {/* 3. EDUCATION: Scroll Reveal */}
+          {/* 3. EDUCATION: Dynamic Mapping */}
           <div className="space-y-32">
             <h3 className="text-[#FF8A50] font-mono text-xs uppercase tracking-[0.5em] mb-10 flex items-center gap-4">
               <span className="w-12 h-[1px] bg-[#FF8A50]"></span> Academic_Path
             </h3>
 
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="group"
-            >
-              <div className="text-white/20 font-bebas text-9xl group-hover:text-[#FF8A50] transition-colors duration-500 italic">
-                2027
-              </div>
-              <div className="mt-[-50px] ml-10">
-                <h4 className="text-white text-4xl font-black uppercase italic tracking-tighter">
-                  B.Tech Computer Science
-                </h4>
-                <p className="text-gray-500 mt-4 leading-relaxed max-w-sm border-l border-white/10 pl-6 group-hover:border-[#FF8A50] transition-colors">
-                  Focusing on high-performance systems and data architecture. 
-                  <span className="block mt-2 text-[#FF8A50] font-mono text-xs font-bold uppercase tracking-widest">
-                    Institute of Enginnering Science IPS Academy, Indore
-                  </span>
-                </p>
-              </div>
-            </motion.div>
+            {education.length > 0 ? education.map((edu) => (
+              <motion.div
+                key={edu.id}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="group"
+              >
+                <div className="text-white/20 font-bebas text-9xl group-hover:text-[#FF8A50] transition-colors duration-500 italic">
+                  {edu.date_label.split('-')[1] || edu.date_label} 
+                </div>
+                <div className="mt-[-50px] ml-10">
+                  <h4 className="text-white text-4xl font-black uppercase italic tracking-tighter">
+                    {edu.title}
+                  </h4>
+                  <p className="text-gray-500 mt-4 leading-relaxed max-w-sm border-l border-white/10 pl-6 group-hover:border-[#FF8A50] transition-colors">
+                    {edu.description}
+                    <span className="block mt-2 text-[#FF8A50] font-mono text-xs font-bold uppercase tracking-widest">
+                      {edu.provider}
+                    </span>
+                  </p>
+                </div>
+              </motion.div>
+            )) : (
+              <p className="text-gray-600 font-mono text-[10px] uppercase tracking-widest italic opacity-40">Connecting_To_Academic_Records...</p>
+            )}
           </div>
 
-          {/* 4. CERTS: Staggered Fade-in */}
+          {/* 4. CERTS: Dynamic Mapping */}
           <div className="space-y-6">
             <h3 className="text-[#FF8A50] font-mono text-xs uppercase tracking-[0.5em] mb-10 flex items-center gap-4 lg:justify-end">
               Modular_Certs <span className="w-12 h-[1px] bg-[#FF8A50]"></span>
             </h3>
 
-            {certs.map((cert, i) => (
+            {certificates.map((cert, i) => (
               <motion.a
-                key={i}
-                href={cert.file}
+                key={cert.id}
+                href={getFileUrl(cert.file_url)}
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, x: 50 }}
@@ -117,7 +125,6 @@ const EducationCerts = () => {
                 viewport={{ margin: "-50px" }}
                 className="relative bg-[#111] p-8 rounded-2xl border border-white/5 hover:border-[#FF8A50]/40 group flex justify-between items-center overflow-hidden cursor-pointer transition-all duration-300"
               >
-                {/* Subtle Hover Glow */}
                 <div className="absolute inset-0 bg-gradient-to-r from-[#FF8A50]/5 to-transparent translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
 
                 <div className="relative z-10">
@@ -125,7 +132,7 @@ const EducationCerts = () => {
                     {cert.title}
                   </h4>
                   <p className="text-gray-500 font-mono text-[10px] uppercase tracking-widest font-bold">
-                    {cert.provider} // {cert.date}
+                    {cert.provider} // {cert.date_label}
                   </p>
                 </div>
 

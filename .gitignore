@@ -18,7 +18,12 @@ build/
 
 # Environment files
 .env
-.env.*
+.env.local
+.env.development
+.env.production
+
+# Allow example env
+!.env.example
 
 # Local configs
 *.local

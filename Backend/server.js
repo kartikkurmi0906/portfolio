@@ -15,6 +15,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/auth', authRoutes);      // All auth routes start with /api/auth
 app.use('/api/projects', projectRoutes); // All project routes start with /api/projects4
 app.use('/api/contacts', require('./routes/contacts'));
+app.use('/api/credentials', require('./routes/credentials'));
 app.use('/api/upload', require('./routes/upload'));
 const PORT = 5000;
 app.listen(PORT, () => {
