@@ -39,7 +39,7 @@ export default function SkillsSection() {
 
       {/* 1. HEADER */}
       <div className="max-w-3xl relative z-10">
-        <h2 className="text-white text-6xl md:text-7xl font-bold mb-4 tracking-tighter uppercase font-bebas">Technical <span style={{ color: '#FF8A50' }}>Stack</span></h2>
+        <h2 className="text-white text-6xl md:text-7xl font-bold mb-4 uppercase font-bebas">Technical <span style={{ color: '#FF8A50' }}>Stack</span></h2>
         <p className="text-gray-400 text-sm md:text-base leading-relaxed mb-8 max-w-xl font-medium uppercase tracking-[0.2em]">
           // System Capabilities _
         </p>
