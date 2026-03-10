@@ -9,15 +9,16 @@ const AdminLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setStatus('Authenticating...');
-    
+
     try {
       // Talking to your Node.js server (Port 5000)
-      const response = await axios.post('http://localhost:5000/api/auth/login', credentials);
-      
+      // Replace the localhost line with this:
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const response = await axios.post(`${API_URL}/api/auth/login`, credentials);
       // Save the "VIP Token" in your browser
       localStorage.setItem('adminToken', response.data.token);
       setStatus('Access_Granted');
-      
+
       // Redirect to Admin Dashboard after 1.5 seconds
       setTimeout(() => window.location.href = '/admin/dashboard', 1500);
     } catch (err) {
@@ -27,7 +28,7 @@ const AdminLogin = () => {
 
   return (
     <div className="h-screen bg-[#0a0a0a] flex items-center justify-center px-6">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         className="w-full max-w-md p-10 border border-white/10 bg-white/[0.02] rounded-2xl relative overflow-hidden"
@@ -48,10 +49,10 @@ const AdminLogin = () => {
           <form onSubmit={handleLogin} className="space-y-8">
             <div className="space-y-2">
               <label className="text-gray-500 font-mono text-[9px] uppercase tracking-widest px-1">User_Identifier</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 required
-                onChange={(e) => setCredentials({...credentials, username: e.target.value})}
+                onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
                 className="w-full bg-black/50 border border-white/5 p-4 rounded-lg outline-none focus:border-[#FF8A50] text-white font-mono transition-all"
                 placeholder="IDENTIFY"
               />
@@ -59,16 +60,16 @@ const AdminLogin = () => {
 
             <div className="space-y-2">
               <label className="text-gray-500 font-mono text-[9px] uppercase tracking-widest px-1">Access_Code</label>
-              <input 
-                type="password" 
+              <input
+                type="password"
                 required
-                onChange={(e) => setCredentials({...credentials, password: e.target.value})}
+                onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
                 className="w-full bg-black/50 border border-white/5 p-4 rounded-lg outline-none focus:border-[#FF8A50] text-white font-mono transition-all"
                 placeholder="••••••••"
               />
             </div>
 
-            <button 
+            <button
               type="submit"
               className="w-full py-4 bg-[#FF8A50] text-black font-black uppercase italic tracking-widest text-sm rounded-lg hover:shadow-[0_0_30px_rgba(255,138,80,0.3)] transition-all"
             >
