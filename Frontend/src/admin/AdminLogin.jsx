@@ -11,11 +11,8 @@ const AdminLogin = () => {
     setStatus('Authenticating...');
 
     try {
-      // Talking to your Node.js server (Port 5000)
-      // Replace the localhost line with this:
       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
       const response = await axios.post(`${API_URL}/api/auth/login`, credentials);
-      // Save the "VIP Token" in your browser
       localStorage.setItem('adminToken', response.data.token);
       setStatus('Access_Granted');
 
