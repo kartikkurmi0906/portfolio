@@ -36,7 +36,7 @@ export default function Hero() {
           className="relative z-10 flex flex-col items-center"
         >
           {/* LAYER 1: The Wireframe (Hollow) */}
-          <h1 className="font-humane text-[100px] md:text-[140px] uppercase leading-[0.8] text-transparent [-webkit-text-stroke:1px_rgba(255,138,80,0.3)] select-none">
+          <h1 className="font-bebas text-[100px] md:text-[140px] uppercase leading-[0.8] text-transparent [-webkit-text-stroke:1px_rgba(255,138,80,0.3)] select-none">
             BUILDING DIGITAL <br />
             EXPERIENCES<br />
             THAT CONNECT
@@ -45,7 +45,7 @@ export default function Hero() {
           {/* LAYER 2: The Fill (White + Orange) - Controlled by ClipPath */}
           <motion.h1 
             style={{ clipPath: clipPathValue }}
-            className="absolute inset-0 font-humane text-[100px] md:text-[140px] uppercase leading-[0.8] select-none"
+            className="absolute inset-0 font-bebas text-[100px] md:text-[140px] uppercase leading-[0.8] select-none"
           >
             <span className="text-white">BUILDING DIGITAL</span><br />
             <span className="text-[#FF8A50]">EXPERIENCES</span><br />

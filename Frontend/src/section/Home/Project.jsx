@@ -45,6 +45,7 @@ export default function ProjectsSection() {
                 <img
                   src={project.img}
                   alt={project.title}
+                  loading="lazy"
                   className="h-full w-full object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
                 />
                 
@@ -55,7 +56,7 @@ export default function ProjectsSection() {
 
               {/* FLOATING TEXT - Tech Style */}
               <div className="absolute -bottom-10 left-0 w-full">
-                <h3 className="font-humane text-[100px] md:text-[100px] leading-none text-white uppercase group-hover:text-brand-orange transition-colors">
+                <h3 className="font-bebas text-[100px] md:text-[100px] leading-none text-white uppercase group-hover:text-brand-orange transition-colors">
                   {project.title}
                 </h3>
                 <div className="flex justify-between items-center mt-[-20px] px-2">

@@ -34,7 +34,7 @@ const SkillOrbit = () => {
           {!activeSkill ? (
             <motion.div key="default" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
               <span className="font-bebas text-[#FF8A50] tracking-[0.4em] text-sm uppercase opacity-50">// System.Capabilities</span>
-              <h2 className="text-white text-7xl font-humane uppercase leading-none mt-2">Skills</h2>
+              <h2 className="text-white text-7xl font-bebas uppercase leading-none mt-2">Skills</h2>
             </motion.div>
           ) : (
             <motion.div key={activeSkill.name} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>

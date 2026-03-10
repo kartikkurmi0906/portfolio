@@ -4,7 +4,7 @@
 @tailwind utilities;
 @theme {
   --font-bebas: "Bebas Neue", sans-serif;
-  --font-humane: "Humane", sans-serif;
+
   
   --color-brand-orange: #FF8A50;
   @keyframes float {
@@ -16,8 +16,7 @@
   --animate-float: float 3s ease-in-out infinite;
 }
 @font-face {
-  font-family: 'Humane';
-  src: url('./assets/fonts/._Humane-Bold.woff2') format('woff2'); /* Adjust path/filename as needed */
+   /* Adjust path/filename as needed */
   font-weight: bold;
   font-style: normal;
 }
